@@ -300,6 +300,38 @@ npm test
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## 🚀 Deployment
+
+### Deploying to Render
+
+1. Fork this repository to your GitHub account
+2. Sign up for a free account at [Render](https://render.com)
+3. Click "New Web Service" in your Render dashboard
+4. Connect your GitHub account and select this repository
+5. Configure the service:
+   - Name: `growguardians-backend`
+   - Environment: `Python`
+   - Build Command: `pip install -r backend/requirements.txt`
+   - Start Command: `python backend/app.py`
+   - Instance Type: `Free`
+6. Add environment variables in the Render dashboard:
+   - `DB_HOST`: Your database host
+   - `DB_USER`: Your database user
+   - `DB_PASSWORD`: Your database password
+   - `DB_NAME`: Your database name
+   - `SECRET_KEY`: A strong secret key
+   - `MODEL_PATH`: Path to your model file
+   - Other Twilio and configuration variables as needed
+7. Click "Create Web Service"
+8. Render will automatically deploy your application
+
+### Database Setup
+
+You'll need to set up a MySQL database separately. You can use:
+- Render's database service
+- A cloud provider like AWS RDS, Google Cloud SQL, or Azure Database
+- A local database for development
+
 ## 🙏 Acknowledgments
 
 - Agricultural experts for domain knowledge

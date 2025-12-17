@@ -422,12 +422,17 @@ def serve_upload(filename):
 # ==================== Run Server ====================
 
 if __name__ == '__main__':
+    # Get port from environment variable (Render) or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
     print("\n" + "="*50)
     print("GrowGuardians Backend Server")
     print("="*50)
-    print(f"Server running on: http://localhost:5000")
+    print(f"Server running on: http://0.0.0.0:{port}")
     print(f"Database: {os.getenv('DB_NAME', 'growguardians')}")
     print(f"Model path: {os.getenv('MODEL_PATH')}")
     print("="*50 + "\n")
     
-    app.run(host='localhost', port=5000, debug=True)
+    # Bind to 0.0.0.0 to make it accessible from outside Docker container
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
