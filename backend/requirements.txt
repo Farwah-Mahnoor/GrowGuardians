@@ -9,3 +9,4 @@ werkzeug==3.0.1
 PyJWT==2.8.0
 mysql-connector-python==8.0.29
 twilio==8.10.0
+gunicorn==20.1.0
