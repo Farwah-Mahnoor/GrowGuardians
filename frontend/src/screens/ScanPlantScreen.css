@@ -1,0 +1,106 @@
+.scan-plant-screen {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.scan-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #FFFFFF;
+}
+
+.scan-back-arrow {
+  background: none;
+  border: none;
+  color: #1A1A1A;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.scan-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px 80px;
+}
+
+.scan-card {
+  background-color: #BFE0DD;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scan-card .scan-header {
+  color: #000000;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+  margin: 0 0 40px 0;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  width: auto;
+  display: block;
+}
+
+.scan-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.scan-button {
+  width: 100%;
+  max-width: 280px;
+  height: 56px;
+  background-color: #18B5A3;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.scan-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.scan-button span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.scan-bottom-nav {
+  background-color: #AFF5ED;
+  height: 60px;
+  margin-top: auto;
+}

@@ -1,0 +1,168 @@
+.login-otp-screen {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #C4FFF6 0%, #B2F2E7 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  position: relative;
+}
+
+.login-otp-top-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.back-arrow-otp {
+  background: none;
+  border: none;
+  color: #1A1A1A;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-otp-card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 30px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.login-otp-header {
+  color: #1A1A1A;
+  font-weight: bold;
+  font-size: 22px;
+  text-align: center;
+  margin: 0 0 16px 0;
+}
+
+.login-otp-description {
+  color: #6D6D6D;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 32px 0;
+  line-height: 1.5;
+}
+
+.login-otp-inputs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.login-otp-box {
+  width: 46px;
+  height: 46px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1A1A1A;
+  outline: none;
+  background-color: transparent;
+  transition: border-color 0.3s, border-width 0.3s;
+}
+
+.login-otp-box:focus {
+  border-color: #32D8C2;
+  border-width: 2px;
+}
+
+.countdown-timer {
+  color: #6A6A6A;
+  font-size: 16px;
+  text-align: center;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+}
+
+.resend-otp-text {
+  color: #FF7A00;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  margin: 0;
+  font-weight: 500;
+}
+
+.resend-otp-text.resending {
+  color: #6D6D6D;
+  cursor: not-allowed;
+}
+
+.resend-otp-text:hover:not(.resending) {
+  text-decoration: underline;
+}
+
+.login-otp-button {
+  width: 100%;
+  max-width: 400px;
+  height: 56px;
+  background-color: #32D8C2;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.3s;
+}
+
+.login-otp-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.login-otp-button.active {
+  opacity: 1;
+}
+
+.login-otp-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FF4B4B;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    bottom: 80px;
+    opacity: 0;
+  }
+  to {
+    bottom: 100px;
+    opacity: 1;
+  }
+}

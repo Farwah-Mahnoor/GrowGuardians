@@ -1,0 +1,156 @@
+.details-screen {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #B1F0E7;
+}
+
+.details-header {
+  background-color: #B1F0E7;
+  padding: 30px 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-arrow {
+  position: absolute;
+  left: 20px;
+  background: none;
+  border: none;
+  color: #1A1A1A;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details-heading {
+  color: #1A1A1A;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+  margin: 0;
+  flex: 1;
+}
+
+.details-header .language-toggle-container {
+  position: absolute;
+  right: 20px;
+}
+
+.details-card {
+  flex: 1;
+  background-color: #FFFFFF;
+  border-radius: 30px 30px 0 0;
+  margin-top: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  color: #444444;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  height: 48px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 16px;
+  color: #1A1A1A;
+  background-color: #FFFFFF;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #32D8C2;
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23444444' d='M1.41 0L6 4.59L10.59 0L12 1.41l-6 6l-6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.registration-button {
+  width: 100%;
+  height: 56px;
+  background-color: #B1F0E7;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.3s;
+}
+
+.registration-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.registration-button.active {
+  opacity: 1;
+}
+
+.registration-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.email-toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FF4B4B;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    bottom: 80px;
+    opacity: 0;
+  }
+  to {
+    bottom: 100px;
+    opacity: 1;
+  }
+}

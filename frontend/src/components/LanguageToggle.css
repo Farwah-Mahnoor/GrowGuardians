@@ -1,0 +1,53 @@
+.language-toggle-container {
+  display: inline-block;
+}
+
+.language-toggle {
+  position: relative;
+  width: 80px;
+  height: 30px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  transition: background-color 0.3s ease;
+}
+
+.language-toggle-pill {
+  position: absolute;
+  width: 38px;
+  height: 26px;
+  background-color: #32D8C2;
+  border-radius: 13px;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.language-toggle-pill.english {
+  left: 2px;
+}
+
+.language-toggle-pill.urdu {
+  left: 40px;
+}
+
+.language-toggle-text {
+  font-size: 12px;
+  color: #666;
+  z-index: 2;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.language-toggle-text.active {
+  color: white;
+  font-weight: 600;
+}
+
+.language-toggle:hover {
+  background-color: #e8e8e8;
+}

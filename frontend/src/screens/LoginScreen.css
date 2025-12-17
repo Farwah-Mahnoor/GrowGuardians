@@ -1,0 +1,119 @@
+.login-screen {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  position: relative;
+}
+
+.login-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.back-arrow-login {
+  background: none;
+  border: none;
+  color: #1A1A1A;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-heading {
+  color: #1A1A1A;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-illustration {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 30px;
+}
+
+.login-text {
+  color: #1A1A1A;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-input-section {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #C6C6C6;
+  padding-bottom: 8px;
+  margin-bottom: 32px;
+  gap: 12px;
+}
+
+.country-code-login {
+  color: #1A1A1A;
+  font-size: 16px;
+  font-weight: 500;
+  padding-right: 12px;
+  border-right: 1px solid #C6C6C6;
+}
+
+.mobile-input-login {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #1A1A1A;
+  background: transparent;
+}
+
+.mobile-input-login::placeholder {
+  color: #A8A8A8;
+}
+
+.generate-otp-button {
+  width: 100%;
+  max-width: 340px;
+  height: 56px;
+  background-color: #32D8C2;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  transition: opacity 0.3s;
+}
+
+.generate-otp-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.generate-otp-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
