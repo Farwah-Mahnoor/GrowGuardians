@@ -2,8 +2,29 @@ services:
   - type: web
     name: growguardians-backend
     env: python
+    plan: free
+    runtime: python-3.10
+    region: ohio
+    
+    # Build command
     buildCommand: "pip install -r backend/requirements.txt"
-    startCommand: "python backend/app.py"
+    
+    # Start command
+    startCommand: "cd backend && gunicorn --bind 0.0.0.0:$PORT wsgi:app"
+    
+    # Environment Variables
     envVars:
       - key: PYTHON_VERSION
-        value: 3.10.6
+        value: 3.10
+      - key: SECRET_KEY
+        value: your-super-secret-key-change-this-in-production
+      - key: ENABLE_SMS
+        value: "False"
+      - key: UPLOAD_FOLDER
+        value: uploads
+      - key: FLASK_DEBUG
+        value: "False"
+      
+      # DATABASE_URL from Neon - CHANGE THIS WITH YOUR NEON CONNECTION STRING
+      - key: DATABASE_URL
+        value: postgresql://neon_user:password@ep-xxxxx.us-east-1.neon.tech/growguardians
