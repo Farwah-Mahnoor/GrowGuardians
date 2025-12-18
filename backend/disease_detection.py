@@ -352,7 +352,7 @@ class DiseaseDetectionService:
     def get_user_reports(user_id):
         """Get all reports for a user"""
         try:
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("""
                 SELECT id, image_path, is_healthy, disease_name, 
                        confidence_score, created_at
@@ -368,12 +368,12 @@ class DiseaseDetectionService:
             formatted_reports = []
             for report in reports:
                 formatted_reports.append({
-                    'id': str(report['id']),
-                    'image': f"/uploads/{os.path.basename(report['image_path'])}",
-                    'title': report['disease_name'],
-                    'date': report['created_at'].strftime('%Y-%m-%d'),
-                    'isHealthy': bool(report['is_healthy']),
-                    'confidence': float(report['confidence_score']) if report['confidence_score'] else 0
+                    'id': str(report[0]),
+                    'image': f"/uploads/{os.path.basename(report[1])}",
+                    'title': report[3],
+                    'date': report[5].strftime('%Y-%m-%d'),
+                    'isHealthy': bool(report[2]),
+                    'confidence': float(report[4]) if report[4] else 0
                 })
             
             return {
@@ -392,20 +392,34 @@ class DiseaseDetectionService:
     def get_report_details(report_id, user_id):
         """Get detailed report by ID"""
         try:
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("""
-                SELECT * FROM disease_reports
+                SELECT id, image_path, is_healthy, disease_name, confidence_score,
+                       diagnosis_details, treatment_tips, created_at
+                FROM disease_reports
                 WHERE id = %s AND user_id = %s
             """, (report_id, user_id))
             
-            report = cursor.fetchone()
+            report_row = cursor.fetchone()
             cursor.close()
 
-            if not report:
+            if not report_row:
                 return {
                     'success': False,
                     'message': 'Report not found'
                 }
+            
+            # Convert to dict for easier access
+            report = {
+                'id': report_row[0],
+                'image_path': report_row[1],
+                'is_healthy': report_row[2],
+                'disease_name': report_row[3],
+                'confidence_score': report_row[4],
+                'diagnosis_details': report_row[5],
+                'treatment_tips': report_row[6],
+                'created_at': report_row[7]
+            }
 
             # Parse JSON fields
             diagnosis_points = json.loads(report['diagnosis_details']) if report['diagnosis_details'] else []
@@ -436,18 +450,19 @@ class DiseaseDetectionService:
         """Delete a report"""
         try:
             # Get report to delete image file
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("""
                 SELECT image_path FROM disease_reports
                 WHERE id = %s AND user_id = %s
             """, (report_id, user_id))
             
-            report = cursor.fetchone()
+            report_row = cursor.fetchone()
             
-            if report:
+            if report_row:
+                image_path = report_row[0]
                 # Delete image file
-                if os.path.exists(report['image_path']):
-                    os.remove(report['image_path'])
+                if os.path.exists(image_path):
+                    os.remove(image_path)
                 
                 # Delete from database
                 cursor.execute("""
@@ -481,7 +496,7 @@ class DiseaseDetectionService:
         """Delete all reports for a user"""
         try:
             # Get all reports to delete image files
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("""
                 SELECT image_path FROM disease_reports
                 WHERE user_id = %s
@@ -491,9 +506,10 @@ class DiseaseDetectionService:
             
             # Delete all image files
             for report in reports:
-                if os.path.exists(report['image_path']):
+                image_path = report[0]
+                if os.path.exists(image_path):
                     try:
-                        os.remove(report['image_path'])
+                        os.remove(image_path)
                     except:
                         pass
             

@@ -15,7 +15,7 @@ class UserService:
         """Send OTP for registration"""
         try:
             # Check if user already exists
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("SELECT id FROM users WHERE mobile_number = %s", (mobile_number,))
             existing_user = cursor.fetchone()
             cursor.close()
@@ -48,7 +48,7 @@ class UserService:
                 return otp_result
             
             # Check if user already exists
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("SELECT id FROM users WHERE mobile_number = %s", (mobile_number,))
             existing_user = cursor.fetchone()
             
@@ -64,6 +64,7 @@ class UserService:
                 INSERT INTO users (name, surname, mobile_number, email, province, 
                                   district, tehsil, village, address)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
             """, (
                 user_data.get('name'),
                 user_data.get('surname'),
@@ -76,8 +77,8 @@ class UserService:
                 user_data.get('address', '')
             ))
             
+            user_id = cursor.fetchone()[0]
             db.connection.commit()
-            user_id = cursor.lastrowid
             cursor.close()
             
             # Generate JWT token
@@ -92,6 +93,7 @@ class UserService:
             
         except Exception as e:
             print(f"Error registering user: {e}")
+            db.connection.rollback()
             return {
                 'success': False,
                 'message': f'Registration failed: {str(e)}'
@@ -102,7 +104,7 @@ class UserService:
         """Send OTP for login"""
         try:
             # Check if user exists
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("SELECT id FROM users WHERE mobile_number = %s", (mobile_number,))
             user = cursor.fetchone()
             cursor.close()
@@ -133,7 +135,7 @@ class UserService:
                 return otp_result
             
             # Get user data
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("""
                 SELECT id, name, surname, mobile_number, email, province, 
                        district, tehsil, village, address
@@ -141,14 +143,28 @@ class UserService:
                 WHERE mobile_number = %s
             """, (mobile_number,))
             
-            user = cursor.fetchone()
+            user_row = cursor.fetchone()
             cursor.close()
 
-            if not user:
+            if not user_row:
                 return {
                     'success': False,
                     'message': 'User not found'
                 }
+            
+            # Convert row to dict for easier access
+            user = {
+                'id': user_row[0],
+                'name': user_row[1],
+                'surname': user_row[2],
+                'mobile_number': user_row[3],
+                'email': user_row[4],
+                'province': user_row[5],
+                'district': user_row[6],
+                'tehsil': user_row[7],
+                'village': user_row[8],
+                'address': user_row[9]
+            }
 
             # Generate JWT token
             token = UserService.generate_token(user['id'], mobile_number)
@@ -182,7 +198,7 @@ class UserService:
     def get_user_profile(user_id):
         """Get user profile by ID"""
         try:
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("""
                 SELECT id, name, surname, mobile_number, email, province, 
                        district, tehsil, village, address
@@ -190,10 +206,22 @@ class UserService:
                 WHERE id = %s
             """, (user_id,))
             
-            user = cursor.fetchone()
+            user_row = cursor.fetchone()
             cursor.close()
 
-            if user:
+            if user_row:
+                user = {
+                    'id': user_row[0],
+                    'name': user_row[1],
+                    'surname': user_row[2],
+                    'mobile_number': user_row[3],
+                    'email': user_row[4],
+                    'province': user_row[5],
+                    'district': user_row[6],
+                    'tehsil': user_row[7],
+                    'village': user_row[8],
+                    'address': user_row[9]
+                }
                 return {
                     'success': True,
                     'user': {
@@ -229,16 +257,18 @@ class UserService:
             new_mobile = update_data.get('mobileNumber')
             
             # Get current mobile number
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             cursor.execute("SELECT mobile_number FROM users WHERE id = %s", (user_id,))
-            current_user = cursor.fetchone()
+            current_user_row = cursor.fetchone()
             
-            if not current_user:
+            if not current_user_row:
                 cursor.close()
                 return {'success': False, 'message': 'User not found'}
             
+            current_mobile = current_user_row[0]
+            
             # If mobile number is changing, verify OTP
-            if new_mobile and new_mobile != current_user['mobile_number']:
+            if new_mobile and new_mobile != current_mobile:
                 if not otp_code:
                     cursor.close()
                     return {'success': False, 'message': 'OTP required for mobile number change'}
@@ -251,10 +281,10 @@ class UserService:
             # Update user data
             cursor.execute("""
                 UPDATE users 
-                SET mobile_number = %s, email = %s, address = %s
+                SET mobile_number = %s, email = %s, address = %s, updated_at = CURRENT_TIMESTAMP
                 WHERE id = %s
             """, (
-                new_mobile or current_user['mobile_number'],
+                new_mobile or current_mobile,
                 update_data.get('email', ''),
                 update_data.get('address', ''),
                 user_id
@@ -270,6 +300,7 @@ class UserService:
 
         except Exception as e:
             print(f"Error updating profile: {e}")
+            db.connection.rollback()
             return {
                 'success': False,
                 'message': f'Failed to update profile: {str(e)}'

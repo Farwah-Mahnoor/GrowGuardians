@@ -137,11 +137,11 @@ class OTPService:
     def verify_otp(mobile_number, otp_code, purpose='registration'):
         """Verify OTP code"""
         try:
-            cursor = db.connection.cursor(dictionary=True)
+            cursor = db.connection.cursor()
             
             # Find valid OTP
             cursor.execute("""
-                SELECT * FROM otp_codes
+                SELECT id FROM otp_codes
                 WHERE mobile_number = %s 
                 AND otp_code = %s 
                 AND purpose = %s 
@@ -154,12 +154,13 @@ class OTPService:
             otp_record = cursor.fetchone()
             
             if otp_record:
+                otp_id = otp_record[0]
                 # Mark OTP as used
                 cursor.execute("""
                     UPDATE otp_codes 
                     SET is_used = TRUE 
                     WHERE id = %s
-                """, (otp_record['id'],))
+                """, (otp_id,))
                 
                 db.connection.commit()
                 cursor.close()

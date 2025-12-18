@@ -380,7 +380,7 @@ def submit_rating():
 def get_ratings():
     """Get all ratings (can be filtered by user)"""
     try:
-        cursor = db.connection.cursor(dictionary=True)
+        cursor = db.connection.cursor()
         
         # Get ratings with user information
         cursor.execute("""
@@ -391,13 +391,21 @@ def get_ratings():
             ORDER BY r.created_at DESC
         """)
         
-        ratings = cursor.fetchall()
+        ratings_rows = cursor.fetchall()
         cursor.close()
         
-        # Format dates
-        for rating in ratings:
-            if rating['created_at']:
-                rating['created_at'] = rating['created_at'].isoformat()
+        # Format ratings
+        ratings = []
+        for row in ratings_rows:
+            rating_dict = {
+                'id': row[0],
+                'rating': row[1],
+                'feedback': row[2],
+                'created_at': row[3].isoformat() if row[3] else None,
+                'name': row[4],
+                'surname': row[5]
+            }
+            ratings.append(rating_dict)
         
         return jsonify({
             'success': True,
