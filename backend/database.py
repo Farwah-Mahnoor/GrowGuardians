@@ -150,5 +150,10 @@ class Database:
             print("PostgreSQL connection closed")
 
 # Initialize database
-db = Database()
-db.connect()
+try:
+    db = Database()
+    db.connect()
+except Exception as e:
+    print(f"❌ Failed to initialize database: {e}")
+    print("⚠️  Application will start but database operations may fail")
+    db = Database()  # Create instance even if connection fails

@@ -63,10 +63,22 @@ def token_required(f):
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
+    try:
+        # Check if connection is alive
+        if db.connection:
+            cursor = db.connection.cursor()
+            cursor.execute('SELECT 1')
+            cursor.close()
+            db_status = 'connected'
+        else:
+            db_status = 'disconnected'
+    except:
+        db_status = 'disconnected'
+    
     return jsonify({
         'success': True,
         'message': 'GrowGuardians Backend is running',
-        'database': 'connected' if db.connection and db.connection.is_connected() else 'disconnected'
+        'database': db_status
     }), 200
 
 # ==================== Authentication Routes ====================
